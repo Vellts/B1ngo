@@ -1,5 +1,8 @@
 import bcrypt from 'bcryptjs';
-import { HasMany, HasOne, BeforeCreate, BeforeUpdate, BelongsTo, Column, Table, Model } from 'sequelize-typescript';
+import { HasMany, HasOne, BeforeCreate, BeforeUpdate, BelongsTo, Column, Table, Model, ForeignKey } from 'sequelize-typescript';
+import { DataTypes } from 'sequelize';
+import { LoginUser } from '../interfaces/user.interface';
+import AvatarProfile from './avatarUser';
 
 interface UserAttributes {
     id: string;
@@ -20,20 +23,23 @@ interface UserAttributes {
     timestamps: true
 })
 class User extends Model {
+
     @Column({
         type: 'uuid',
         primaryKey: true,
     })
-    id: string;
+    user_id: string;
 
     @Column({
         allowNull: false,
         unique: true,
+        type: DataTypes.STRING,
     })
     username: string;
 
     @Column({
         allowNull: false,
+        type: DataTypes.STRING,
     })
     password: string;
 
@@ -42,37 +48,37 @@ class User extends Model {
         unique: true,
         validate: {
             isEmail: true,
-        }
+        },
+        type: DataTypes.STRING,
     })
     email: string;
 
     @Column({
         defaultValue: 'user',
+        type: DataTypes.STRING,
     })
     role: string;
     
     @Column({
         defaultValue: false,
+        type: 'boolean',
     })
-    isActive: string;
+    isActive?: boolean;
 
     @Column({
         defaultValue: false,
+        type: 'boolean',
     })
-    accountActivated: string;
+    accountActivated?: boolean;
+    
+    // add AvatarProfile as a foreign key
+    // @ForeignKey(() => AvatarProfile)
 
-    @Column({
-        type: 'json',
-        defaultValue: {
-            id: '123',
-            url: 'https://cdn.discordapp.com/attachments/816326616501452832/1007074070514380840/unknown.png'
-        }
-    })
-    profile: string;
+
 
     @BeforeCreate({})
     @BeforeUpdate({})
-    static async hasPassword(user: any): Promise<void> {
+    static async hashPassword(user: any): Promise<void> {
         if(user.password) {
             const salt = await bcrypt.genSalt(10);
             user.password = await bcrypt.hash(user.password, salt);
@@ -83,6 +89,18 @@ class User extends Model {
 
     static async comparePassword(password: string, userPassword: string): Promise<boolean> {
         return await bcrypt.compare(password, userPassword);
+    }
+
+    static async getUserByEmail(email: string): Promise<User | null> {
+        return await User.findOne({ where: { email } });
+    }
+
+    static async getUserById(id: string): Promise<User | null> {
+        return await User.findOne({ where: { user_id: id } });
+    }
+
+    static async registerNewUser(user: UserAttributes | any): Promise<User | null> {
+        return await User.create(user);
     }
 }
 

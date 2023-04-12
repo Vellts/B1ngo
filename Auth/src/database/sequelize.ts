@@ -1,12 +1,17 @@
 import { Sequelize, type SequelizeOptions } from 'sequelize-typescript';
+import { join } from 'path';
+
 
 const sql_options: SequelizeOptions = {
     //
     dialect: 'postgres',
     host: process.env.SQL_HOST,
     port: Number(process.env.SQL_PORT),
-    models: [`${__dirname}/src/models/{*.ts,*.js}`]
+    models: [`${join(__dirname, '../models')}/*.ts`],
+    logging: false,
 }
+
+console.log(__dirname)
 
 const root = process.env
 
