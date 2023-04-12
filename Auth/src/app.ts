@@ -8,8 +8,11 @@ class App {
         this.app = express();
         this.port = appInit.port;
 
+        this.app.use(express.json());
+        this.app.use(express.urlencoded({ extended: true }))
+
         // this.middlewares(appInit.middlewares);
-        // this.routes(appInit.controllers);
+        this.routes(appInit.controllers);
     }
 
     private middlewares(middlewares: { forEach: (arg0: (middleware: any) => void) => void; }) {
@@ -19,8 +22,9 @@ class App {
     }
 
     private routes(controllers: { forEach: (arg0: (controller: any) => void) => void; }) {
+
         controllers.forEach(controller => {
-            this.app.use('/api/v1', controller.router);
+            this.app.use('/api/v1', controller);
         });
     }
 
