@@ -11,13 +11,12 @@ class App {
         this.app.use(express.json());
         this.app.use(express.urlencoded({ extended: true }))
 
-        this.middlewares(appInit.middlewares);
+        // this.middlewares(appInit.middlewares);
         this.routes(appInit.controllers);
     }
 
     private middlewares(middlewares: { forEach: (arg0: (middleware: any) => void) => void; }) {
         middlewares.forEach(middleware => {
-            console.log(middleware)
             this.app.use(middleware);
         });
     }

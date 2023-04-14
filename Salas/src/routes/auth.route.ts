@@ -1,11 +1,10 @@
 import { Router } from "express";
 import { loginController } from "../controllers/auth.controller";
 import User from "../models/User";
-import { loginMiddleware } from "../middlewares/login.middleware";
 
 const routes = Router();
 
-routes.post('/login', loginMiddleware, loginController);
+routes.post('/login', loginController);
 routes.post('/register', async (req, res) => {
     const { username, email, password } = req.body;
     const id = 'f72ddae6-6c71-4544-9376-9cc28d5ee75e'
