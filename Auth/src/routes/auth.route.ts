@@ -1,3 +1,63 @@
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Login:
+ *       type: object
+ *       required:
+ *         - email
+ *         - password
+ *       properties:
+ *         email:
+ *           type: string
+ *           description: The email of your user
+ *         password:
+ *           type: string
+ *           description: The password of your user
+ *       example:
+ *         email: b1ngo@email.com
+ *         password: 123456
+ */
+
+/**
+ * @swagger
+ * tags:
+ *   name: Auth
+ *   description: Autenticación de usuarios
+ * /login:
+ *   post:
+ *     summary: Inicia sesión de un usuario
+ *     tags: [Login]
+ *     parameters:
+ *       - in: path
+ *         name: email
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: El email del usuario.
+ *       - in: path
+ *         name: password
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: La contraseña del usuario.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Login'
+ *     responses:
+ *       200:
+ *         description: El modelo del usuario.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Login'
+ *       500:
+ *         description: Error interno del servidor.
+ */
+
 import { Router } from "express";
 import { loginController } from "../controllers/auth.controller";
 import User from "../models/User";
