@@ -11,8 +11,6 @@ const sql_options: SequelizeOptions = {
     logging: false,
 }
 
-console.log(__dirname)
-
 const root = process.env
 
 export const sequelize = new Sequelize(`postgres://${root.SQL_USER}:${root.SQL_PASS}@${root.SQL_HOST}:${root.SQL_PORT}/${root.SQL_DATABASE}`,

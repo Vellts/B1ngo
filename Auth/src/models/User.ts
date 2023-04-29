@@ -9,7 +9,7 @@ interface UserAttributes {
     username: string;
     password: string;
     email: string;
-    role: string;
+    role: string; // [user, admin]
     isActive?: boolean;
     accountActivated?: boolean;
     profile?: {
@@ -66,7 +66,7 @@ class User extends Model {
     isActive?: boolean;
 
     @Column({
-        defaultValue: false,
+        defaultValue: true,
         type: 'boolean',
     })
     accountActivated?: boolean;
