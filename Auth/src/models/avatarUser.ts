@@ -22,6 +22,9 @@ export class AvatarProfile extends Model {
         type: DataTypes.STRING,
     })
     url: string;
+
+    @BelongsTo(() => User)
+    user: User;
 }
 
 export default AvatarProfile;

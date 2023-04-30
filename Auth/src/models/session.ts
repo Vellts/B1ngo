@@ -22,6 +22,9 @@ export class Session extends Model {
 
     @Column({
         type: DataTypes.STRING,
+        validate: {
+            isIP: true,
+        }
     })
     ip: string;
 
@@ -30,8 +33,11 @@ export class Session extends Model {
     })
     device: string;
 
-    static async generateToken(user: User): Promise<string> {
-        const token = jwt.sign({ id: user.user_id }, process.env.JWT_SECRET as string, {
+    @BelongsTo(() => User)
+    user: User;
+
+    static async generateToken(user_id: string): Promise<string> {
+        const token = jwt.sign({ id: user_id }, process.env.JWT_SECRET as string, {
             expiresIn: '7d'
         });
 
@@ -49,10 +55,11 @@ export class Session extends Model {
         return session;
     }
 
-    static async deleteSession(token: string): Promise<boolean> {
+    static async deleteSession(token: string, user_id: string): Promise<boolean> {
         const session = await Session.findOne({
             where: {
                 token,
+                user_id: user_id,
             }
         });
 
@@ -64,18 +71,22 @@ export class Session extends Model {
         return false;
     }
 
-    static async verifySession(token: string, user: User): Promise<User |boolean> {
+    static async verifySession(token: string, user_id: string): Promise<boolean> {
+        
+
         const validate = await Session.findOne({
             where: {
                 token,
-                user_id: user.user_id,
+                user_id: user_id,
             }
         })
 
-        if (!validate) return false
-
-        return user;
+        if (validate) return true;
+    
+        return false;
     }
 }
+
+
 
 export default Session;
