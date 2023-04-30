@@ -31,7 +31,6 @@ class App {
      */
     private middlewares(middlewares: { forEach: (arg0: (middleware: any) => void) => void; }) {
         middlewares.forEach(middleware => {
-            console.log(middleware)
             this.app.use(middleware);
         });
     }
@@ -42,10 +41,11 @@ class App {
      * @description Agrega los controladores a la aplicación
      * @returns void
      */
-    private routes(controllers: { forEach: (arg0: (controller: any) => void) => void; }) {
+    private routes(router: { forEach: (arg0: (route: any) => void) => void; }) {
 
-        controllers.forEach(controller => {
-            this.app.use('/api/v1', controller);
+        router.forEach(route => {
+            // console.log(`Route ${route}`)
+            this.app.use('/api/v1', route);
         });
 
         this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerJsdoc(options), { explorer: true }));

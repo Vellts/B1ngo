@@ -3,6 +3,8 @@ import { HasMany, HasOne, BeforeCreate, BeforeUpdate, BelongsTo, Column, Table, 
 import { DataTypes } from 'sequelize';
 import { LoginUser } from '../interfaces/user.interface';
 import AvatarProfile from './avatarUser';
+import Session from './session';
+import { EmailVerificator } from './EmailVerification';
 
 interface UserAttributes {
     id: string;
@@ -20,7 +22,8 @@ interface UserAttributes {
 
 @Table({
     tableName: 'users',
-    timestamps: true
+    timestamps: true,
+    
 })
 class User extends Model {
 
@@ -60,7 +63,7 @@ class User extends Model {
     role: string;
     
     @Column({
-        defaultValue: false,
+        defaultValue: true,
         type: 'boolean',
     })
     isActive?: boolean;
@@ -73,7 +76,14 @@ class User extends Model {
     
     // add AvatarProfile as a foreign key
     // @ForeignKey(() => AvatarProfile)
+    @HasOne(() => AvatarProfile)
+    profile?: AvatarProfile;
 
+    @HasOne(() => Session)
+    session?: Session;
+
+    @HasOne(() => EmailVerificator)
+    emailVerification?: EmailVerificator;
 
 
     @BeforeCreate({})

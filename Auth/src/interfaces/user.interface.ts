@@ -8,7 +8,7 @@ export interface LoginUser {
 
 export interface LoginResponse {
     user: User;
-    token: Session;
+    session: Session;
 }
 
 export interface RegisterUser{

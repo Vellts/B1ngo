@@ -7,7 +7,7 @@ import jwt from 'jsonwebtoken';
     tableName: 'users.verifyemail',
     timestamps: true
 })
-export class Session extends Model {
+export class EmailVerificator extends Model {
     @Column({
         type: 'uuid',
         allowNull: false,
@@ -29,6 +29,9 @@ export class Session extends Model {
         type: DataTypes.DATE,
     })
     date: Date;
+
+    @BelongsTo(() => User)
+    user: User;
 }
 
-export default Session;
+export default EmailVerificator;
