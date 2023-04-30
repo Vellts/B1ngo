@@ -28,13 +28,10 @@ export const loginController = asyncHandler(async (req: Request, res: Response) 
 export const logoutController = asyncHandler(async (req: any, res: Response) => {
     const token = req.headers.authorization?.split(' ')[1]
 
-    const data = await AuthService.logout(token, req.user_id)
+    const data: boolean = await AuthService.logout(token, req.user_id)
 
     if (data) {
-        console.log(req.user_id);
-        
         req.user_id = null
-        console.log(req.user_id);
 
         return res.status(200).json({
             code: 200,

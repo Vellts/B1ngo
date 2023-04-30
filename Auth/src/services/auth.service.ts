@@ -63,7 +63,6 @@ export class AuthService {
         const deleteSession = await Session.deleteSession(token, user_id);
 
         return deleteSession;
-        // return true
     }
 }
 
