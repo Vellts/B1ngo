@@ -13,6 +13,6 @@ const sql_options: SequelizeOptions = {
 
 const root = process.env
 
-export const sequelize = new Sequelize(`postgres://${root.SQL_USER}:${root.SQL_PASS}@${root.SQL_HOST}:${root.SQL_PORT}/${root.SQL_DATABASE}`,
+export const sequelize = new Sequelize(`postgres://${root.POSTGRES_USER}:${root.POSTGRES_PASSWORD}@${root.SQL_HOST}:${root.SQL_PORT}/${root.POSTGRES_DB}`,
     {...sql_options}
 )
