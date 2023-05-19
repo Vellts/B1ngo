@@ -64,5 +64,22 @@ export class AuthService {
 
         return deleteSession;
     }
+    static async register(user: RegisterUser): Promise<User | boolean> {
+        const emailExists = await User.emailExists(user.email);
+        if (!emailExists) {
+            const userSave = {
+                username:user.username,
+                email:user.email,
+                password:user.password,
+                rol: "user",
+                isActive: true,
+                accountActivated:true
+
+            }
+            const newUser = await User.create(userSave);
+            return newUser;
+          }
+          return false;
+        }
 }
 
