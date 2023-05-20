@@ -44,3 +44,20 @@ export const logoutController = asyncHandler(async (req: any, res: Response) => 
         msg: "LOGOUT_FAILED"
     })
 })
+export const registerController = asyncHandler(async (req: Request, res: Response) => {
+    const { email, password, username} = req.body
+
+    const data: User | boolean = await AuthService.register({ email, password,username })
+    
+    if (typeof(data) == 'boolean') {
+        return res.status(400).json({
+            code: 400,
+            msg: "EMAIL_ALREADY_EXISTS"
+        })
+    }
+
+    return res.status(200).json({
+        code: 200,
+        msg: "USER_CREATED",
+        data })
+})

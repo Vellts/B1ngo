@@ -112,6 +112,15 @@ class User extends Model {
     static async registerNewUser(user: UserAttributes | any): Promise<User | null> {
         return await User.create(user);
     }
+    static async emailExists(email: string): Promise<boolean> {
+        const existingUser = await User.findOne({ where: { email } });
+        return !!existingUser; 
+    }
+    static async userExists(user: string): Promise<boolean> {
+        const existingUser = await User.findOne({ where: { user } });
+        return !!existingUser; 
+    }
+    
 }
 
 
