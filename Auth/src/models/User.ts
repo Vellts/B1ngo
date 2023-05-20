@@ -59,6 +59,9 @@ class User extends Model {
     @Column({
         defaultValue: 'user',
         type: DataTypes.STRING,
+        validate: {
+            isIn: [['user', 'admin']],
+        }
     })
     role: string;
     
@@ -112,6 +115,7 @@ class User extends Model {
     static async registerNewUser(user: UserAttributes | any): Promise<User | null> {
         return await User.create(user);
     }
+
     static async emailExists(email: string): Promise<boolean> {
         const existingUser = await User.findOne({ where: { email } });
         return !!existingUser; 
@@ -120,7 +124,6 @@ class User extends Model {
         const existingUser = await User.findOne({ where: { user } });
         return !!existingUser; 
     }
-    
 }
 
 

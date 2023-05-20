@@ -7,6 +7,19 @@ interface jwtPayload {
     id: string;
 }
 
+const check_refresh_token = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+    const token = req.cookies['refresh_token'];
+
+    if(!token) return res.status(400).json({
+        code: 400,
+        msg: "NO_TOKEN_PROVIDED"
+    })
+
+    const { id } = jwt.verify(token, process.env.JWT_SECRET as string) as jwtPayload;
+
+    
+});
+
 export const check_token = asyncHandler(async (req: any, res: Response, next: NextFunction) => {
     const token = req.headers['authorization']?.split(' ')[1];
 
@@ -32,33 +45,3 @@ export const check_token = asyncHandler(async (req: any, res: Response, next: Ne
 
     return res.send("OK")
 });
-
-// export const check_token = async (req: any, res: Response, next: NextFunction) => {
-    // const token = req.headers['authorization']?.split(' ')[1];
-    // console.log(token)
-    // if (!token) return res.status(400).json({
-    //     code: 400,
-    //     msg: "NO_TOKEN_PROVIDED"
-    // });
-
-    // const { id } = jwt.verify(token, process.env.JWT_SECRET as string) as jwtPayload;
-
-    // if(id) {
-    //     const check_session = await Session.verifySession(token, id);
-
-    //     if(check_session) {
-    //         req.user = id;
-    //         next();
-    //     } else {
-    //         return res.status(400).json({
-    //             code: 400,
-    //             msg: "INVALID_TOKEN"
-    //         });
-    //     }
-    // }
-
-    // return res.status(400).json({
-    //     code: 400,
-    //     msg: "INVALID_TOKEN"
-    // });
-// };

@@ -8,7 +8,7 @@ import { HttpResponse } from "../interfaces/http.interface"
 export const loginController = asyncHandler(async (req: Request, res: Response) => {
     const { email, password } = req.body
 
-    const data: LoginResponse | HttpResponse = await AuthService.login({ email, password }, req)
+    const data: LoginResponse | HttpResponse = await AuthService.login({ email, password }, req, res)
 
 
     if ('status' in data) {
@@ -44,11 +44,12 @@ export const logoutController = asyncHandler(async (req: any, res: Response) => 
         msg: "LOGOUT_FAILED"
     })
 })
+
 export const registerController = asyncHandler(async (req: Request, res: Response) => {
     const { email, password, username} = req.body
 
     const data: User | boolean = await AuthService.register({ email, password,username })
-    
+
     if (typeof(data) == 'boolean') {
         return res.status(400).json({
             code: 400,

@@ -11,7 +11,7 @@ class App {
         this.app.use(express.json());
         this.app.use(express.urlencoded({ extended: true }))
 
-        // this.middlewares(appInit.middlewares);
+        this.middlewares(appInit.middlewares);
         this.routes(appInit.controllers);
     }
 
@@ -29,7 +29,7 @@ class App {
     }
 
     public run() {
-        this.app.listen(this.port, () => {
+        this.app.listen(this.port, '0.0.0.0', () => {
             console.log(`Aplicación en localhost:${this.port}`);
         });
     }

@@ -1,8 +1,8 @@
 FROM node:20-alpine3.17
 
-RUN mkdir -p /usr/src/app
+RUN mkdir -p /usr/auth/app
 
-WORKDIR /usr/src/app
+WORKDIR /usr/auth/app
 
 COPY package*.json .
 
