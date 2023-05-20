@@ -116,6 +116,10 @@ class User extends Model {
         const existingUser = await User.findOne({ where: { email } });
         return !!existingUser; 
     }
+    static async userExists(user: string): Promise<boolean> {
+        const existingUser = await User.findOne({ where: { user } });
+        return !!existingUser; 
+    }
     
 }
 

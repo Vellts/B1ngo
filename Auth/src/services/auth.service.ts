@@ -6,6 +6,7 @@ import Session from "../models/session";
 import { randomUUID } from 'crypto';
 import { HttpResponse } from "../interfaces/http.interface";
 
+
 export class AuthService {
 
     static async login(user: LoginUser, req: Request): Promise<LoginResponse | HttpResponse> {
@@ -66,8 +67,10 @@ export class AuthService {
     }
     static async register(user: RegisterUser): Promise<User | boolean> {
         const emailExists = await User.emailExists(user.email);
-        if (!emailExists) {
+        const userExists = await  User.userExists(user.username)
+        if (!emailExists && !userExists) {
             const userSave = {
+                user_id: randomUUID(),
                 username:user.username,
                 email:user.email,
                 password:user.password,
